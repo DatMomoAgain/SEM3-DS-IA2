@@ -109,8 +109,33 @@ public:
         return true;
     }
     
+    // --MAIN LOGIC--
     void solveSudoku(vector<vector<char>>& board) {
-        vector<vector<char>> temp = board;
+        if(isFull(board)) // base case
+        {
+            return ;
+        }
+        for(int i = 0;i<9;i++) // row traversal
+        {
+            for(int j=0;j<9;j++) // column traversal
+            {
+                if( board[i][j] == "." ) // empty space encountered
+                {
+                    for(char k='1';k<='9';k++) // 1-9 input in cell
+                    {
+                        board[i][j] == k;
+                        if(isValid(board,i,j))
+                            solveSudoku(board);
+
+
+
+
+                    }
+                     
+                }
+
+            }
+        }
 
     }
 };
