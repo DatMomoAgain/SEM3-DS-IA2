@@ -112,14 +112,101 @@ public:
     
     //--MAIN LOGIC--
     void solveSudoku(vector<vector<char>>& board) {
+        
+        //MANUALLY SOLVING ATTEMPT WITHOUT GUESSING TILL 290 ITERATIONS
+        vector<vector<char>> temp = board;
+        int q=0;
+        int w=0;
+        int k=0;
+        while(!isFull(board))
+        {
+            k++;
+            //cout<<board[6][4]<<endl;
+            vector<vector<char>> temp2 = temp;
+            vector<char> s;
+            vector<char> s2;
+            int count=0;
+            int c2=0;
+            int c3=0;
+            for(int i=0; i<9; i++)
+            {
+                if(temp[q][w]=='.')
+                {
+                    temp2[q][w] = (i+1) + '0';
+                    if(isValid(temp2,q,w))
+                    {
+                        //checking if its only possible number in the row
+                        for(int j=0; j<9; j++)
+                        {
+                            if(temp[q][j]=='.')
+                            {
+                                temp[q][j] = (i+1)+'0';
+                                if(isValid(temp,q,j))
+                                {
+                                    c2++;
+                                    s2.push_back((i+1) + '0');
+                                }
+                                temp[q][j]='.';
+                            }
+                        }
+                        if(c2==1)
+                        {
+                            break;
+                        }
+                        else
+                        {
+                            c2=0;
+                            s2 = {};
+                        }                        
+                        count++;
+                        s.push_back((i+1) + '0');
+                    }
+                }
+            }
+            if(count==1||c2==1)
+            {
+                if(c2==1){
+                    temp2[q][w] = s2[0];
+                    s2 = {};
+                }
+                else if(count ==1){
+                    temp2[q][w] = s[0];
+                }
+                board = temp2;
+                temp = temp2;
+            }
+            s={};
+            
+            w++;
+            if(w==9)
+            {
+                w=0;
+                q++;
+            }
+            if(q==9)
+            {
+                w=0;
+                q=0;
+            }
+            
+            //break and move on to backtracking
+            if(k==290)
+            {
+                break;
+            }
+        }
+        
+        
+        //BACKTRACKING
         int i1=0;
         int i2=0;
-        vector<int> if1;
+        vector<int> if1; 
         vector<int> if2;
         int c=0;
         vector<char> preVal;
         while(!isFull(board))
         {
+            k++;
             if(board[i1][i2] == '.' || c!=0)
             {
                 if(c==0){
@@ -193,7 +280,6 @@ public:
                 i1=0;
                 i2=0;
             }
-            
         }
     }
 };
