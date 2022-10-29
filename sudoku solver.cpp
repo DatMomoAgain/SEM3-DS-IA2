@@ -109,34 +109,92 @@ public:
         return true;
     }
     
-    // --MAIN LOGIC--
+    
+    //--MAIN LOGIC--
     void solveSudoku(vector<vector<char>>& board) {
-        if(isFull(board)) // base case
+        int i1=0;
+        int i2=0;
+        vector<int> if1;
+        vector<int> if2;
+        int c=0;
+        vector<char> preVal;
+        while(!isFull(board))
         {
-            return ;
-        }
-        for(int i = 0;i<9;i++) // row traversal
-        {
-            for(int j=0;j<9;j++) // column traversal
+            if(board[i1][i2] == '.' || c!=0)
             {
-                if( board[i][j] == "." ) // empty space encountered
-                {
-                    for(char k='1';k<='9';k++) // 1-9 input in cell
+                if(c==0){
+                    for(char i='1'; i<='9'; i++)
                     {
-                        board[i][j] == k;
-                        if(isValid(board,i,j))
-                            solveSudoku(board);
-
-
-
-
+                        board[i1][i2] = i;
+                        if(isValid(board, i1, i2))
+                        {
+                            if1.push_back(i1);
+                            if2.push_back(i2);
+                            preVal.push_back(i);
+                            break;
+                        }
+                        else if(i=='9')
+                        {
+                            board[i1][i2] = '.';
+                            i1 = if1[if1.size()-1];
+                            i2 = if2[if2.size()-1]-1;
+                            if1.pop_back();
+                            if2.pop_back();
+                            c++;
+                        }
+                        else
+                        {
+                            board[i1][i2] = '.';
+                        }
+                    } //char i for loop
+                } //if c==0
+                else
+                {
+                    c =0;
+                    for(char i=preVal[preVal.size()-1]; i<='9'; i++)
+                    {
+                        board[i1][i2] = i+1;
+                        if(isValid(board, i1, i2) && board[i1][i2]<='9')
+                        {
+                            if1.push_back(i1);
+                            if2.push_back(i2);
+                            preVal.pop_back();
+                            preVal.push_back(i+1);
+                            break;
+                        }
+                        else if(i+1>='9')
+                        {
+                            board[i1][i2] = '.';
+                            i1 = if1[if1.size()-1];
+                            i2 = if2[if2.size()-1]-1;
+                            if1.pop_back();
+                            if2.pop_back();
+                            preVal.pop_back();
+                            c++;
+                            break;
+                        }
+                        else
+                        {
+                            board[i1][i2] = '.';
+                        }
                     }
-                     
                 }
-
+            } //main if condition
+            
+            //traversing board 
+            i2++;
+            if(i2==9)
+            {
+                i2 = 0;
+                i1++;
             }
+            if(i1==9)
+            {
+                i1=0;
+                i2=0;
+            }
+            
         }
-
     }
 };
 
@@ -176,4 +234,13 @@ int main()
     }
     Solution a;    
     a.solveSudoku(board);
+
+    for(int i=0; i<9; i++)
+    {
+        for(int j=0; j<9; j++)
+        {
+            cout<<board[i][j]<<"  ";
+        }
+        cout<<endl;
+    }
 }
