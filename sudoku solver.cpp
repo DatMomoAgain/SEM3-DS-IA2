@@ -93,7 +93,7 @@ public:
         
         return ans;
     }
-    
+    // Check if sudoku board if complete or not
     bool isFull(vector<vector<char>>& board)
     {
         for(int i=0; i<9; i++)
