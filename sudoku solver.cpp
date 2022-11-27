@@ -6,6 +6,7 @@ using namespace std;
 
 class Solution {
 public:
+    // isValid() checks the validity of the solution chosen, which is on the basis of the three rules mentioned in the problem statement
     bool isValid(vector<vector<char>>& board, int r, int c)
     {
         bool ans = true;
@@ -48,7 +49,7 @@ public:
         }
         
         sort(col.begin(), col.end()); 
-        
+        // duplicates in the same column are checked
         for(int j=0; j<col.size()-1; j++)
         {
             if(col[j] == col[j+1])
@@ -58,7 +59,7 @@ public:
         }
         
         
-        //--CHECK BOX--
+        //--CHECKS BOX--
         vector<char> box;
         
         //adding elements to box
@@ -93,7 +94,9 @@ public:
         
         return ans;
     }
+    
     // Check if sudoku board if complete or not
+    
     bool isFull(vector<vector<char>>& board)
     {
         for(int i=0; i<9; i++)
