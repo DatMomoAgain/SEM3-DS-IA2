@@ -114,7 +114,8 @@ public:
     
     
     //--MAIN LOGIC--
-    void solveSudoku(vector<vector<char>>& board) {
+    //return false if board is unsolveable
+    bool solveSudoku(vector<vector<char>>& board) {
         
         //MANUALLY SOLVING ATTEMPT WITHOUT GUESSING TILL 290 ITERATIONS
         vector<vector<char>> temp = board;
@@ -205,17 +206,32 @@ public:
         int i2=0;
         vector<int> if1; 
         vector<int> if2;
+        int i11;
+        int i12;
+        int k2=0;
         int c=0;
         vector<char> preVal;
         while(!isFull(board))
         {
             k++;
+            //storing index of 1st empty cell
+            if(k2==0 && board[i1][i2] == '.')
+            {
+                k2++;
+                i11= i1;
+                i12 = i2;
+            }
             if(board[i1][i2] == '.' || c!=0)
             {
                 if(c==0){
                     for(char i='1'; i<='9'; i++)
                     {
                         board[i1][i2] = i;
+                        if(i1==i11 && i2==i12 && i=='9' && !isValid(board,i1,i2))
+                        {
+                            cout<<"invalid board";
+                            return false;
+                        }
                         if(isValid(board, i1, i2))
                         {
                             if1.push_back(i1);
@@ -244,6 +260,11 @@ public:
                     for(char i=preVal[preVal.size()-1]; i<='9'; i++)
                     {
                         board[i1][i2] = i+1;
+                        if(i1==i11 && i2==i12 && i+1=='9' && !isValid(board,i1,i2))
+                        {
+                            cout<<"invalid board";
+                            return false;
+                        }
                         if(isValid(board, i1, i2) && board[i1][i2]<='9')
                         {
                             if1.push_back(i1);
@@ -284,6 +305,7 @@ public:
                 i2=0;
             }
         }
+        return true;
     }
 };
 
@@ -291,19 +313,19 @@ int main()
 {
     vector<vector<string>> board1
     {
-        {"9",".",".",".",".","1",".",".","."},
-        {".","1",".",".","4","9",".",".","6"},
-        {".",".","7",".",".",".",".",".","."},
-        {"2",".",".","7",".",".","3",".","."},
-        {".","4",".","5","9",".",".",".","."},
-        {".",".","8",".",".",".","7","4","."},
-        {".",".","6",".","2",".",".","9","."},
-        {"3","2",".",".",".",".",".",".","."},
-        {".",".",".",".","8",".","5",".","."}
+        {"2",".",".","9",".",".",".",".","."},
+        {".",".",".",".",".",".",".","6","."},
+        {".",".",".",".",".","1",".",".","."},
+        {"5",".","2","6",".",".","4",".","7"},
+        {".",".",".",".",".","4","1",".","."},
+        {".",".",".",".","9","8",".","2","3"},
+        {".",".",".",".",".","3",".","8","."},
+        {".",".","5",".","1",".",".",".","."},
+        {".",".","7",".",".",".",".",".","."}
     };
     
     //storing the sudoku board in the vector of vectors
-    
+    cout<<"Input Sudoku Board: "<<endl;
     for(int i=0; i<9; i++)
     {
         for(int j=0; j<9; j++)
@@ -324,14 +346,16 @@ int main()
         }
     }
     Solution a;    
-    a.solveSudoku(board);
-    // Final Display of the solved sudoku board
-    for(int i=0; i<9; i++)
-    {
-        for(int j=0; j<9; j++)
+    if(a.solveSudoku(board)){;
+        // Final Display of the solved sudoku board
+        cout<<"Solved Sudoku Board: "<<endl;
+        for(int i=0; i<9; i++)
         {
-            cout<<board[i][j]<<"  ";
+            for(int j=0; j<9; j++)
+            {
+                cout<<board[i][j]<<"  ";
+            }
+            cout<<endl;
         }
-        cout<<endl;
     }
 }
