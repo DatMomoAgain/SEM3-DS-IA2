@@ -302,6 +302,8 @@ int main()
         {".",".",".",".","8",".","5",".","."}
     };
     
+    //storing the sudoku board in the vector of vectors
+    
     for(int i=0; i<9; i++)
     {
         for(int j=0; j<9; j++)
@@ -323,7 +325,7 @@ int main()
     }
     Solution a;    
     a.solveSudoku(board);
-
+    // Final Display of the solved sudoku board
     for(int i=0; i<9; i++)
     {
         for(int j=0; j<9; j++)
